@@ -3,14 +3,45 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "bootstrap": "3",
+    "gh-pages": "^1.1.0",
+    "midiconvert": "^0.4.2",
     "react": "^16.2.0",
+    "react-bootstrap": "^0.32.0",
     "react-dom": "^16.2.0",
-    "react-scripts": "1.1.1"
+    "react-scripts": "1.1.1",
+    "tone": "^0.11.11"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Wintergatan/midimarblemachine"
+  },
+  "homepage": "https://wintergatan.github.io/midimarblemachine",
+  "license": "MIT",
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint src",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,json}": ["prettier --write", "eslint --fix", "git add"]
+  },
+  "devDependencies": {
+    "babel-eslint": "^7.2.3",
+    "eslint": "^4.15.0",
+    "eslint-config-react-app": "^2.1.0",
+    "eslint-plugin-flowtype": "^2.41.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-json": "^1.2.0",
+    "eslint-plugin-jsx-a11y": "^5.1.1",
+    "eslint-plugin-react": "^7.5.1",
+    "husky": "^0.14.3",
+    "lint-staged": "^6.0.0",
+    "prettier": "1.10.2"
   }
 }
