@@ -1,30 +1,33 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
+import styled from "styled-components";
+
+const Circle = styled.div`
+  border: 1px solid black;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: block;
+  margin: 20px auto;
+  &:hover {
+    cursor: pointer;
+  }
+`;
 
 export class Note extends Component {
-  static propTypes = {
-    type: PropTypes.string,
-    x: PropTypes.number.isRequired,
-    y: PropTypes.number.isRequired,
-    radius: PropTypes.number
+  state = {
+    on: false
   };
 
-  static defaultProps = {
-    type: "round",
-    radius: 4
-  };
+  switch = () => this.setState({ on: !this.state.on });
 
   render() {
-    const { x, y, radius } = this.props;
-    return (
-      <circle
-        cx={x}
-        cy={y}
-        r={radius}
-        stroke="black"
-        stroke-idth="3"
-        fill="red"
-      />
-    );
+    const { on } = this.state;
+    let color;
+    if (on) {
+      color = "green";
+    } else {
+      color = "blue";
+    }
+    return <Circle style={{ backgroundColor: color }} onClick={this.switch} />;
   }
 }

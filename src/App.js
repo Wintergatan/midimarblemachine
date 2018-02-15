@@ -1,21 +1,17 @@
 import React, { Component } from "react";
-import { Grid, Row, Col } from "react-bootstrap";
 import { NoteGrid } from "./components/NoteGrid";
 import "./App.css";
 
+// Plate
+// 8 plates per whell
+// 32 rows
+// x columns
+// x mm distance between rows
+// x mm distance between columns
+
 class App extends Component {
   render() {
-    return (
-      <div className="container">
-        <Grid>
-          <Row>
-            <Col>
-              <NoteGrid />
-            </Col>
-          </Row>
-        </Grid>
-      </div>
-    );
+    return <NoteGrid />;
   }
 }
 
