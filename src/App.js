@@ -1,16 +1,17 @@
 import React, { Component } from "react";
+import { NoteGrid } from "./components/NoteGrid";
 import "./App.css";
+
+// Plate
+// 8 plates per whell
+// 32 rows
+// x columns
+// x mm distance between rows
+// x mm distance between columns
 
 class App extends Component {
   render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">midi marble machine, hello travis</p>
-      </div>
-    );
+    return <NoteGrid />;
   }
 }
 
