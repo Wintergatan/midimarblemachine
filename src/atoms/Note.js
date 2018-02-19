@@ -8,7 +8,7 @@ const Circle = styled.div`
   width: 40px;
   height: 40px;
   display: block;
-  margin: 20px auto;
+  margin: 10px;
   &:hover {
     cursor: pointer;
   }
@@ -20,12 +20,13 @@ export class Note extends Component {
   };
 
   static propTypes = {
+    id: PropTypes.string.isRequired,
     callback: PropTypes.func.isRequired
   };
 
   switch = () => {
     this.setState({ on: !this.state.on });
-    this.props.callback("hi");
+    this.props.callback(this.props.id);
   };
 
   render() {
