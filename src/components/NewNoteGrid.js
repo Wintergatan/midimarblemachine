@@ -10,19 +10,29 @@ export class NewNoteGrid extends Component {
   };
   render() {
     const { instruments, notes } = this.props;
-    Object.keys(instruments).forEach(key => {
-      const x = notes[key].filter(note => {
-        Object.keys(instruments[key]).forEach(instrumentKey => {
-          //console.log("instrument", instrumentKey);
+    //const group = "bass";
+
+    let result = { drums: {}, bass: {}, vibraphone: {} };
+
+    Object.keys(instruments).forEach(group => {
+      ["alternating", "regular"].forEach(kind => {
+        Object.keys(instruments[group]).forEach(item => {
+          const filteredNotes = notes[group]
+            .filter(note => {
+              return instruments[group][item][kind].indexOf(note.name) !== -1;
+            })
+            .map(note => note.time);
+          // console.log("filteredNotes", filteredNotes);
+          if (!result[group][item]) {
+            result[group][item] = {};
+          }
+          result[group][item][kind] = filteredNotes;
         });
-
-        return true; // .alternating.contains(note.name);
       });
-
-      //console.log(instruments[key]);
-      //console.log("test", x);
     });
 
-    return <Note />;
+    // console.log("result", result);
+
+    return <pre>{JSON.stringify(result, null, 2)}</pre>;
   }
 }

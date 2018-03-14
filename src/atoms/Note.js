@@ -3,8 +3,8 @@ import styled from "styled-components";
 
 const Circle = styled.div`
   border: 1px solid black;
-  width: 20px;
-  height: 60px;
+  width: 10px;
+  height: 30px;
   display: block;
   margin: 10px;
   &:hover {

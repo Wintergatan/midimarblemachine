@@ -1809,14 +1809,14 @@ const midi = {
           duration: 0.43281250000001137
         },
         {
-          name: "B4",
+          name: "A1",
           midi: 71,
           time: 145.12500000000006,
           velocity: 0.5039370078740157,
           duration: 0.28437500000001137
         },
         {
-          name: "E5",
+          name: "A1",
           midi: 76,
           time: 145.50000000000006,
           velocity: 0.4015748031496063,
@@ -1872,28 +1872,28 @@ const midi = {
           duration: 0.4906249999999943
         },
         {
-          name: "B4",
+          name: "C0",
           midi: 71,
           time: 148.50000000000009,
           velocity: 0.5118110236220472,
           duration: 0.25
         },
         {
-          name: "B5",
+          name: "D6",
           midi: 83,
           time: 148.87500000000009,
           velocity: 0.6929133858267716,
           duration: 0.21718749999999432
         },
         {
-          name: "B4",
+          name: "D6",
           midi: 71,
           time: 149.25000000000009,
           velocity: 0.5748031496062992,
           duration: 1.2890625
         },
         {
-          name: "F#5",
+          name: "D6",
           midi: 78,
           time: 149.62500000000009,
           velocity: 0.6692913385826772,
@@ -3223,7 +3223,7 @@ const midi = {
           duration: 0.75
         },
         {
-          name: "A5",
+          name: "E7",
           midi: 81,
           time: 232.1250000000001,
           velocity: 0.8110236220472441,
@@ -3244,7 +3244,7 @@ const midi = {
           duration: 2.7312499999999886
         },
         {
-          name: "E5",
+          name: "D7",
           midi: 76,
           time: 233.6250000000001,
           velocity: 0.7952755905511811,
@@ -4274,7 +4274,8 @@ const instruments = {
         "B0",
         "C1",
         "C#1"
-      ]
+      ],
+      regular: []
     },
     A: {
       alternating: [
@@ -4302,7 +4303,8 @@ const instruments = {
         "F#3",
         "G3",
         "G#3"
-      ]
+      ],
+      regular: []
     },
     D: {
       alternating: [
@@ -4328,7 +4330,8 @@ const instruments = {
         "A5",
         "A#5",
         "B5"
-      ]
+      ],
+      regular: []
     },
     G: {
       alternating: [
@@ -4354,7 +4357,8 @@ const instruments = {
         "D8",
         "D#8",
         "E8"
-      ]
+      ],
+      regular: []
     }
   },
   // To be changed later, E-minor is here as an example
@@ -4372,7 +4376,8 @@ const instruments = {
         "C3",
         "D3",
         "E3"
-      ]
+      ],
+      regular: []
     }
   }
 };
