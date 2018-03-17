@@ -4,10 +4,10 @@ import PropTypes from "prop-types";
 import { Note } from "../atoms/Note";
 
 function Notes(props) {
-  console.log(props.result.bass.D.alternating)
+  console.log(props.result.bass.D.alternating);
   return props.result.bass.D.alternating.map(note => {
-    return <Note key={"note" + note} x={note} y={5} />
-  })
+    return <Note key={"note" + note} x={note} y={5} />;
+  });
 }
 
 export class NewNoteGrid extends Component {
@@ -39,43 +39,44 @@ export class NewNoteGrid extends Component {
     // });
 
     const result = Object.keys(instruments).map(instrument => {
-      console.log("instruments", instrument)
+      console.log("instruments", instrument);
       Object.keys(instruments[instrument]).map(instrumentPart => {
-        console.log("instrumentPart", instrumentPart)
+        console.log("instrumentPart", instrumentPart);
         instruments[instrument][instrumentPart].filter(note => {
           console.log(note);
-        })
-      })
-    })
+        });
+      });
+    });
 
     console.log("result", result);
 
+    return (
+      <svg width="1000px" height="1000px">
+        <rect
+          x={0}
+          y={0}
+          width={150}
+          height={1000}
+          stroke="black"
+          strokeWidth={5}
+          fill={"white"}
+        />
+        {/* <Notes result={result} /> */}
 
-    return <svg width="1000px" height="1000px">
-      <rect
-        x={0}
-        y={0}
-        width={150}
-        height={1000}
-        stroke="black"
-        strokeWidth={5}
-        fill={"white"}
-      />
-      {/* <Notes result={result} /> */}
+        <Note x={5} y={125} />
+        <Note x={5} y={375} />
+        <Note x={5} y={625} />
+        <Note x={5} y={875} />
 
-      <Note x={5} y={125} />
-      <Note x={5} y={375} />
-      <Note x={5} y={625} />
-      <Note x={5} y={875} />
+        <Note x={50} y={0} />
+        <Note x={50} y={250} />
+        <Note x={50} y={500} />
+        <Note x={50} y={750} />
 
-      <Note x={50} y={0} />
-      <Note x={50} y={250} />
-      <Note x={50} y={500} />
-      <Note x={50} y={750} />
-
-      <Note x={100} y={0} />
-      <Note x={100} y={333} />
-      <Note x={100} y={666} />
-    </svg>;
+        <Note x={100} y={0} />
+        <Note x={100} y={333} />
+        <Note x={100} y={666} />
+      </svg>
+    );
   }
 }

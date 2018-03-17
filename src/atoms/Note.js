@@ -19,15 +19,17 @@ export class Note extends Component {
   render() {
     const { on } = this.state;
     const { x, y } = this.props;
-    return <rect
-      x={x}
-      y={y}
-      width="20"
-      height="60"
-      stroke="black"
-      strokeWidth="5"
-      fill={on?"black":"#ccc"}
-      onClick={this.switch}
-    />;
+    return (
+      <rect
+        x={x}
+        y={y}
+        width="20"
+        height="60"
+        stroke="black"
+        strokeWidth="5"
+        fill={on ? "black" : "#ccc"}
+        onClick={this.switch}
+      />
+    );
   }
 }

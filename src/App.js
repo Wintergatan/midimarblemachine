@@ -4228,7 +4228,7 @@ const midi = {
       isPercussion: false
     }
   ]
-}
+};
 
 // To change manual/alternating
 // 1-49 Manual Channel 1
@@ -4239,7 +4239,7 @@ const instruments = {
     kick: ["C0"],
     snare: ["C1"],
     hihat: ["C2"],
-    cymbal: ["C3"],
+    cymbal: ["C3"]
   },
   bass: {
     E: [
@@ -4343,19 +4343,7 @@ const instruments = {
   },
   // To be changed later, E-minor is here as an example
   vibraphone: {
-    bars: [
-        "B1",
-        "C2",
-        "D2",
-        "E2",
-        "F#2",
-        "G2",
-        "A2",
-        "B2",
-        "C3",
-        "D3",
-        "E3"
-      ]
+    bars: ["B1", "C2", "D2", "E2", "F#2", "G2", "A2", "B2", "C3", "D3", "E3"]
   }
 };
 
