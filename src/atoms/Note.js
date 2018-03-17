@@ -1,20 +1,14 @@
 import React, { Component } from "react";
-import styled from "styled-components";
-
-const Circle = styled.div`
-  border: 1px solid black;
-  width: 10px;
-  height: 30px;
-  display: block;
-  margin: 10px;
-  &:hover {
-    cursor: pointer;
-  }
-`;
+import PropTypes from "prop-types";
 
 export class Note extends Component {
   state = {
     on: false
+  };
+
+  static propTypes = {
+    x: PropTypes.number.isRequired,
+    y: PropTypes.number.isRequired
   };
 
   switch = () => {
@@ -24,12 +18,16 @@ export class Note extends Component {
 
   render() {
     const { on } = this.state;
-    let color;
-    if (on) {
-      color = "black";
-    } else {
-      color = "#cccc";
-    }
-    return <Circle style={{ backgroundColor: color }} onClick={this.switch} />;
+    const { x, y } = this.props;
+    return <rect
+      x={x}
+      y={y}
+      width="20"
+      height="60"
+      stroke="black"
+      strokeWidth="5"
+      fill={on?"black":"#ccc"}
+      onClick={this.switch}
+    />;
   }
 }
