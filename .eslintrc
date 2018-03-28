@@ -1,4 +1,7 @@
 {
   "extends": ["eslint:recommended", "plugin:react/recommended", "react-app"],
-  "plugins": ["json"]
+  "plugins": ["json"],
+  "rules": {
+    "no-console": 0
+  }
 }

@@ -1,18 +1,5 @@
 import React, { Component } from "react";
-import styled from "styled-components";
 import PropTypes from "prop-types";
-
-const Circle = styled.div`
-  border: 1px solid black;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  display: block;
-  margin: 10px;
-  &:hover {
-    cursor: pointer;
-  }
-`;
 
 export class Note extends Component {
   state = {
@@ -20,23 +7,29 @@ export class Note extends Component {
   };
 
   static propTypes = {
-    id: PropTypes.string.isRequired,
-    callback: PropTypes.func.isRequired
+    x: PropTypes.number.isRequired,
+    y: PropTypes.number.isRequired
   };
 
   switch = () => {
     this.setState({ on: !this.state.on });
-    this.props.callback(this.props.id);
+    //this.props.callback(this.props.id);
   };
 
   render() {
     const { on } = this.state;
-    let color;
-    if (on) {
-      color = "black";
-    } else {
-      color = "#cccc";
-    }
-    return <Circle style={{ backgroundColor: color }} onClick={this.switch} />;
+    const { x, y } = this.props;
+    return (
+      <rect
+        x={x}
+        y={y}
+        width="20"
+        height="60"
+        stroke="black"
+        strokeWidth="5"
+        fill={on ? "black" : "#ccc"}
+        onClick={this.switch}
+      />
+    );
   }
 }
