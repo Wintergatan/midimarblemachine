@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { NewNoteGrid } from "./components/NewNoteGrid";
 import * as midiconvert from "midiconvert";
+import { NewNoteGrid } from "./components/NewNoteGrid";
+import Export from "./components/Export";
 
 // const midi = {
 //   header: {
@@ -4369,8 +4370,7 @@ class App extends Component {
   render() {
     const { instruments, notes } = this.state;
     return (
-      notes &&
-      instruments && <NewNoteGrid instruments={instruments} notes={notes} />
+      notes && instruments && <Export instruments={instruments} notes={notes} /> //<NewNoteGrid instruments={instruments} notes={notes} />
     );
   }
 }

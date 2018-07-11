@@ -5,6 +5,7 @@
   "dependencies": {
     "bootstrap": "3",
     "gh-pages": "^1.1.0",
+    "makerjs": "^0.9.93",
     "midiconvert": "^0.4.2",
     "react": "^16.2.0",
     "react-bootstrap": "^0.32.0",
@@ -30,7 +31,11 @@
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "*.{js,json}": ["prettier --write", "eslint --fix", "git add"]
+    "*.{js,json}": [
+      "prettier --write",
+      "eslint --fix",
+      "git add"
+    ]
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
