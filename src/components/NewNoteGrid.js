@@ -14,23 +14,23 @@ const SvgContainer = styled.svg`
 // };
 
 const yIntervals = {
-  row1: [ 0, 125, 250, 375, 500, 625, 750, 875 ],
-  row2: [ 0, 250, 500, 750 ]
-}
+  row1: [0, 125, 250, 375, 500, 625, 750, 875],
+  row2: [0, 250, 500, 750]
+};
 
 const xIntervals = [5, 50, 100];
 
 function Notes(props) {
-//   console.log("result",props.result)
-//   const yTotal = 2000;
-//   console.log("notes", props.result.drums.kick.alternating)
+  //   console.log("result",props.result)
+  //   const yTotal = 2000;
+  //   console.log("notes", props.result.drums.kick.alternating)
 
-//   return props.result.drums.kick.alternating.map((note, index) => {
-//     const x = getXIndex(note);
-//     const y = yTotal - (note * 250) + 60; 
-//     return <Note key={"note" + note} x={x} y={y} />;
-//   });
-// //
+  //   return props.result.drums.kick.alternating.map((note, index) => {
+  //     const x = getXIndex(note);
+  //     const y = yTotal - (note * 250) + 60;
+  //     return <Note key={"note" + note} x={x} y={y} />;
+  //   });
+  // //
   // Column 1
 
   return (
@@ -54,13 +54,13 @@ function Notes(props) {
 function getXIndex(note) {
   if (note % 0.5 === 0) {
     console.log("column 2", note);
-    return 2//xIntervals[1];
+    return 2; //xIntervals[1];
   } else if (note % 0.25 === 0) {
     console.log("column 1", note);
-    return 1//xIntervals[0];
+    return 1; //xIntervals[0];
   } else {
     console.log("column 3", note);
-    return 3//xIntervals[2];
+    return 3; //xIntervals[2];
   }
 }
 

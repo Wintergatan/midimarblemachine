@@ -1,138 +1,205 @@
 import React, { Component } from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 import { Note } from "../atoms/Note";
 
-const instrumentData = {
-  vibraphone: [
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9",
-    "10",
-    "11",
-    "12",
-    "13",
-    "14",
-    "15",
-    "16",
-    "17",
-    "18",
-    "19",
-    "20",
-    "21",
-    "22"
-  ],
-  kickDrum: ["1", "2"],
-  snareDrum: ["1", "2"],
-  hihat: ["1", "2"],
-  cymbal: ["1", "2"],
-  Bass: ["E 1", "E 2", "A 1", "A2", "D 1", "D 2", "G 1", "G 2"]
-};
-
-const noOfRows = 32;
-
-let noOfColumns = 0;
-Object.keys(instrumentData).forEach(key => {
-  noOfColumns += instrumentData[key].length;
-});
-
-const Container = styled.div`
-  display: grid;
-  grid-template-columns: 50px repeat(${noOfColumns}, 1fr);
-  grid-template-rows: 50px 50px repeat(${noOfRows}, 1fr);
-  grid-gap: 1px;
+const SvgContainer = styled.svg`
+  transform-origin: 50% 50%;
+  transform: scale(1, -1);
 `;
 
-const InstrumentGroup = styled.div`
-  border: 1px solid black;
+const SurroundingRectangle = styled.rect`
+  stroke-width: 3;
+  stroke: rgb(0, 0, 0);
+  fill: none;
 `;
 
-const Instrument = styled.div`
-  border: 1px solid black;
+const InstrumentText = styled.text`
+  transform-origin: 50% 50%;
+  transform: scale(1, -1);
+  fill: black;
 `;
 
-const Cell = styled.div`
-  border: 1px solid black;
-`;
+function getColumns(instrument, lane, callback, group, name) {
+  const width = 240;
+  const height = 500;
+  const horizontalSpacing = 30;
 
-const Numbering = styled.div`
-  border: 1px solid black;
-  grid-column: 1;
-`;
+  const column1x = 0;
+  const column2x = horizontalSpacing;
+  const column3x = 2 * horizontalSpacing;
+  const column4x = 20 + 3 * horizontalSpacing;
+  const column5x = 20 + 4 * horizontalSpacing;
+  const column6x = 20 + 5 * horizontalSpacing;
+  const verticalSpacing = height / 4;
+  const offset = verticalSpacing / 2;
+  const column3spacing = height / 3;
 
-function Notes(props) {
-  let counter = 1;
-  return Object.keys(instrumentData).map(key => {
-    return instrumentData[key].map(instrument => {
-      counter++;
-      return Array(noOfRows)
-        .fill()
-        .map((_, i) => {
-          return (
-            <Cell
-              key={"noteWrapper" + key + instrument + i}
-              style={{ gridColumn: counter, gridRow: i + 3 }}
-            >
-              <Note
-                key={"note" + i}
-                id={key + instrument + i}
-                callback={props.callback}
-              />
-            </Cell>
-          );
-        });
-    });
+  const column1 = instrument[0].map((value, index) => {
+    return (
+      <Note
+        key={name + "column1" + index}
+        instrumentGroup={group}
+        instrument={name}
+        column={1}
+        index={index}
+        x={column1x}
+        y={offset + index * verticalSpacing}
+        value={value}
+        callback={callback}
+      />
+    );
   });
+
+  const column2 = instrument[1].map((value, index) => {
+    return (
+      <Note
+        key={name + "column2" + index}
+        instrumentGroup={group}
+        instrument={name}
+        column={2}
+        index={index}
+        x={column2x}
+        y={index * verticalSpacing}
+        value={value}
+        callback={callback}
+      />
+    );
+  });
+
+  const column3 = instrument[2].map((value, index) => {
+    return (
+      <Note
+        key={name + "column3" + index}
+        instrumentGroup={group}
+        instrument={name}
+        column={3}
+        index={index}
+        x={column3x}
+        y={(index + 1) * column3spacing}
+        value={value}
+        callback={callback}
+      />
+    );
+  });
+
+  const column4 = instrument[3].map((value, index) => {
+    return (
+      <Note
+        key={name + "column4" + index}
+        instrumentGroup={group}
+        instrument={name}
+        column={4}
+        index={index}
+        x={column4x}
+        y={offset + index * verticalSpacing}
+        value={value}
+        callback={callback}
+      />
+    );
+  });
+
+  const column5 = instrument[4]
+    .map((value, index) => {
+      return (
+        <Note
+          key={name + "column5" + index}
+          instrumentGroup={group}
+          instrument={name}
+          column={5}
+          index={index}
+          x={column5x}
+          y={index * verticalSpacing}
+          value={value}
+          callback={callback}
+        />
+      );
+    })
+    .filter(v => v !== false);
+
+  const column6 = instrument[5]
+    .map((value, index) => {
+      return (
+        <Note
+          key={name + "column6" + index}
+          instrumentGroup={group}
+          instrument={name}
+          column={6}
+          index={index}
+          x={column6x}
+          y={(index + 1) * column3spacing}
+          value={value}
+          callback={callback}
+        />
+      );
+    })
+    .filter(v => v !== false);
+
+  // const surroundingRectangle = new MakerJs.models.Rectangle(54, height);
+  const surroundingRectangle = (
+    <SurroundingRectangle
+      key={group + name + "surroundingRectangle"}
+      width={190}
+      height={height}
+    />
+  );
+
+  const title = (
+    <InstrumentText key={group + name + "title"} x={0} y={15}>
+      {group + " " + name}
+    </InstrumentText>
+  );
+  return (
+    <g key={group + name} transform={`translate(${lane * width},2.5)`}>
+      {[
+        ...column1,
+        ...column2,
+        ...column3,
+        ...column4,
+        ...column5,
+        ...column6,
+        surroundingRectangle,
+        title
+      ]}
+    </g>
+  );
 }
 
-export class NoteGrid extends Component {
-  myCallback = dataFromChild => {
-    // console.log(dataFromChild);
+class NoteGrid extends Component {
+  static propTypes = {
+    data: PropTypes.object.isRequired,
+    changeNote: PropTypes.func.isRequired
   };
 
   render() {
-    let start = 2;
+    const { data, changeNote } = this.props;
+    const width = 5000;
+    const height = 520;
+
+    // const kick = getColumns(data.drums.kick, 0, changeNote, "drums", "kick");
+    // const snare = getColumns(data.drums.snare, 1, changeNote, "drums", "snare");
+    let i = -1;
+    const all = Object.keys(data).map(instrumentGroup => {
+      return Object.keys(data[instrumentGroup]).map(instrument => {
+        i++;
+        return getColumns(
+          data[instrumentGroup][instrument],
+          i,
+          changeNote,
+          instrumentGroup,
+          instrument
+        );
+      });
+    });
+
     return (
-      <Container>
-        <Cell />
-        {Object.keys(instrumentData).map(key => {
-          const end = start + instrumentData[key].length;
-          const result = (
-            <InstrumentGroup
-              key={key}
-              style={{ gridRow: 1, gridColumn: `${start}/${end}` }}
-            >
-              {key}
-            </InstrumentGroup>
-          );
-          start = end;
-          return result;
-        })}
-        <Cell />
-        {Object.keys(instrumentData).map(key => {
-          return instrumentData[key].map(instrument => {
-            return <Instrument key={key + instrument}>{instrument}</Instrument>;
-          });
-        })}
-        {Array(noOfRows)
-          .fill()
-          .map((_, i) => (
-            <Numbering
-              style={{
-                gridRow: i + 3
-              }}
-              key={"rowNumber" + i + 1}
-            >
-              {i + 1}
-            </Numbering>
-          ))}
-        <Notes callback={this.myCallback} />
-      </Container>
+      <div>
+        <SvgContainer width={width} height={height}>
+          {all}
+        </SvgContainer>
+      </div>
     );
   }
 }
+
+export default NoteGrid;

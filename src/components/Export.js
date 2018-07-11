@@ -1,19 +1,6 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import MakerJs from "makerjs";
-
-function Squares() {
-  this.models = {
-    s1: new MakerJs.models.Square(100),
-
-    //calling makerjs.model.move and creating a model all on one line of code.
-    s2: MakerJs.model.move(new MakerJs.models.Square(100), [120, 0]),
-
-    s3: new MakerJs.models.Square(100)
-  };
-
-  //move the third square by setting its origin property.
-  this.models.s3.origin = [240, 0];
-}
 
 function Note(x, y) {
   return MakerJs.model.move(new MakerJs.models.Rectangle(4, 8), [x, y]);
@@ -101,172 +88,15 @@ function getColumns(instrument) {
 }
 
 export default class Export extends Component {
+  static propTypes = {
+    data: PropTypes.object.isRequired
+  };
+
   render() {
-    const { instruments, notes } = this.props;
+    const { data } = this.props;
     const width = 64;
 
-    const data = {
-      drums: {
-        kick: [
-          [true, true, true, true],
-          [true, true, true, true],
-          [true, true],
-          [true, true, true, true],
-          [true, true, true, true],
-          [true, true]
-        ],
-        snare: [
-          [true, false, true, true],
-          [true, true, true, false],
-          [true, true],
-          [true, false, true, true],
-          [true, true, true, false],
-          [true, true]
-        ],
-        hihat: [
-          [true, false, true, true],
-          [true, true, true, false],
-          [true, true],
-          [true, false, true, true],
-          [true, true, true, false],
-          [true, true]
-        ],
-        cymbal: [
-          [true, true, true, true],
-          [true, true, true, false],
-          [true, true],
-          [true, true, true, true],
-          [true, true, true, false],
-          [true, true]
-        ]
-      },
-      bass: {
-        E: [
-          [12, false, false, 12],
-          [12, false, false, 12],
-          [12, false],
-          [12, false, false, 12],
-          [12, false, false, 12],
-          [12, false]
-        ],
-        A: [
-          [38, false, false, 38],
-          [38, false, false, 38],
-          [38, false],
-          [38, false, false, 38],
-          [38, false, false, 38],
-          [38, false]
-        ],
-        D: [
-          [74, false, false, 74],
-          [74, false, false, 74],
-          [74, false],
-          [74, false, false, 74],
-          [74, false, false, 74],
-          [74, false]
-        ],
-        G: [
-          [100, false, false, 100],
-          [100, false, false, 100],
-          [100, false],
-          [100, false, false, 100],
-          [100, false, false, 100],
-          [100, false]
-        ]
-      },
-      vibraphone: {
-        bar1: [
-          [1, false, false, 0],
-          [0, false, false, 0],
-          [0, false],
-          [0, false, false, 0],
-          [0, false, false, 0],
-          [0, false]
-        ],
-        bar2: [
-          [0, false, false, 0],
-          [0, false, false, 0],
-          [0, false],
-          [0, false, false, 0],
-          [0, false, false, 0],
-          [0, false]
-        ],
-        bar3: [
-          [0, false, false, 0],
-          [0, false, false, 0],
-          [0, false],
-          [0, false, false, 0],
-          [0, false, false, 0],
-          [0, false]
-        ],
-        bar4: [
-          [0, false, false, 0],
-          [0, false, false, 0],
-          [0, false],
-          [0, false, false, 0],
-          [0, false, false, 0],
-          [0, false]
-        ],
-        bar5: [
-          [0, false, false, 0],
-          [0, false, false, 0],
-          [0, false],
-          [0, false, false, 0],
-          [0, false, false, 0],
-          [0, false]
-        ],
-        bar6: [
-          [0, false, false, 0],
-          [0, false, false, 0],
-          [0, false],
-          [0, false, false, 0],
-          [0, false, false, 0],
-          [0, false]
-        ],
-        bar7: [
-          [0, false, false, 0],
-          [0, false, false, 0],
-          [0, false],
-          [0, false, false, 0],
-          [0, false, false, 0],
-          [0, false]
-        ],
-        bar8: [
-          [0, false, false, 0],
-          [0, false, false, 0],
-          [0, false],
-          [0, false, false, 0],
-          [0, false, false, 0],
-          [0, false]
-        ],
-        bar9: [
-          [0, false, false, 0],
-          [0, false, false, 0],
-          [0, false],
-          [0, false, false, 0],
-          [0, false, false, 0],
-          [0, false]
-        ],
-        bar10: [
-          [0, false, false, 0],
-          [0, false, false, 0],
-          [0, false],
-          [0, false, false, 0],
-          [0, false, false, 0],
-          [0, false]
-        ],
-        bar11: [
-          [0, false, false, 0],
-          [0, false, false, 0],
-          [0, false],
-          [0, false, false, 0],
-          [0, false, false, 0],
-          [0, false]
-        ]
-      }
-    };
-
-    const tempModel = {
+    const model = {
       models: {
         drums: {
           models: {
@@ -359,37 +189,13 @@ export default class Export extends Component {
       }
     };
 
-    // const tempModel = Object.values(data).map(instrumentGroup => {
-    //   console.log(instrumentGroup);
-    //   return Object.values(instrumentGroup).map(instrument => {
-    //     // console.log("instrument", instrument);
-    //     const column = instrument.map((column, columnIndex) => {
-    //       // console.log("deepest", value, columnIndex);
-    //       return column.map((value, index) => {
-    //         console.log("value", value, index);
-    //         return new Note(column3x, column3spacing);
-    //       });
-    //     });
-    //     return { models: column };
-    //   });
-    // });
-
-    console.log("tempmodel", tempModel);
-
-    // const model = { paths: pathObject };
-    // const single = { models: [...column1, ...column2, ...column3] };
-    // let second = Object.assign({}, single);
-    // second.origin = [width, 0];
-    // const model = { models: { single, second } };
     const exportOptions = {
       units: "mm",
       useSvgPathOnly: true,
-      svgAttrs: { xmlns: "http://www.w3.org/2000/svg" }
-      // stroke: "red"
+      svgAttrs: { xmlns: "http://www.w3.org/2000/svg" },
+      stroke: "red"
     };
-    // console.log("model", model);
-    const previewSvg = MakerJs.exporter.toSVG(tempModel, exportOptions);
-    // const previewSvg = "";
+    const previewSvg = MakerJs.exporter.toSVG(model, exportOptions);
     return <div dangerouslySetInnerHTML={{ __html: previewSvg }} />;
   }
 }

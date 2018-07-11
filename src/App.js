@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import * as midiconvert from "midiconvert";
 import { NewNoteGrid } from "./components/NewNoteGrid";
 import Export from "./components/Export";
+import NoteGrid from "./components/NoteGrid";
 
 // const midi = {
 //   header: {
@@ -4352,7 +4353,167 @@ const instruments = {
 class App extends Component {
   state = {
     notes: null,
-    instruments: null
+    instruments: null,
+    data: {
+      drums: {
+        kick: [
+          [true, false, true, true],
+          [true, true, true, true],
+          [true, true],
+          [false, true, false, true],
+          [true, true, true, true],
+          [true, true]
+        ],
+        snare: [
+          [true, false, true, true],
+          [true, true, true, false],
+          [true, true],
+          [true, false, true, true],
+          [true, true, true, false],
+          [true, true]
+        ],
+        hihat: [
+          [true, false, true, true],
+          [true, true, true, false],
+          [true, true],
+          [true, false, true, true],
+          [true, true, true, false],
+          [true, true]
+        ],
+        cymbal: [
+          [true, true, true, true],
+          [true, true, true, false],
+          [true, true],
+          [true, true, true, true],
+          [true, true, true, false],
+          [true, true]
+        ]
+      },
+      bass: {
+        E: [
+          [12, false, false, 12],
+          [12, false, false, 12],
+          [12, false],
+          [12, false, false, 12],
+          [12, false, false, 12],
+          [12, false]
+        ],
+        A: [
+          [38, false, false, 38],
+          [38, false, false, 38],
+          [38, false],
+          [38, false, false, 38],
+          [38, false, false, 38],
+          [38, false]
+        ],
+        D: [
+          [74, false, false, 74],
+          [74, false, false, 74],
+          [74, false],
+          [74, false, false, 74],
+          [74, false, false, 74],
+          [74, false]
+        ],
+        G: [
+          [100, false, false, 100],
+          [100, false, false, 100],
+          [100, false],
+          [100, false, false, 100],
+          [100, false, false, 100],
+          [100, false]
+        ]
+      },
+      vibraphone: {
+        bar1: [
+          [1, false, false, 0],
+          [0, false, false, 0],
+          [0, false],
+          [0, false, false, 0],
+          [0, false, false, 0],
+          [0, false]
+        ],
+        bar2: [
+          [0, false, false, 0],
+          [0, false, false, 0],
+          [0, false],
+          [0, false, false, 0],
+          [0, false, false, 0],
+          [0, false]
+        ],
+        bar3: [
+          [0, false, false, 0],
+          [0, false, false, 0],
+          [0, false],
+          [0, false, false, 0],
+          [0, false, false, 0],
+          [0, false]
+        ],
+        bar4: [
+          [0, false, false, 0],
+          [0, false, false, 0],
+          [0, false],
+          [0, false, false, 0],
+          [0, false, false, 0],
+          [0, false]
+        ],
+        bar5: [
+          [0, false, false, 0],
+          [0, false, false, 0],
+          [0, false],
+          [0, false, false, 0],
+          [0, false, false, 0],
+          [0, false]
+        ],
+        bar6: [
+          [0, false, false, 0],
+          [0, false, false, 0],
+          [0, false],
+          [0, false, false, 0],
+          [0, false, false, 0],
+          [0, false]
+        ],
+        bar7: [
+          [0, false, false, 0],
+          [0, false, false, 0],
+          [0, false],
+          [0, false, false, 0],
+          [0, false, false, 0],
+          [0, false]
+        ],
+        bar8: [
+          [0, false, false, 0],
+          [0, false, false, 0],
+          [0, false],
+          [0, false, false, 0],
+          [0, false, false, 0],
+          [0, false]
+        ],
+        bar9: [
+          [0, false, false, 0],
+          [0, false, false, 0],
+          [0, false],
+          [0, false, false, 0],
+          [0, false, false, 0],
+          [0, false]
+        ],
+        bar10: [
+          [0, false, false, 0],
+          [0, false, false, 0],
+          [0, false],
+          [0, false, false, 0],
+          [0, false, false, 0],
+          [0, false]
+        ],
+        bar11: [
+          [0, false, false, 0],
+          [0, false, false, 0],
+          [0, false],
+          [0, false, false, 0],
+          [0, false, false, 0],
+          [0, false]
+        ]
+      }
+    }
   };
   componentDidMount() {
     midiconvert.load("MMX.mid").then(midi => {
@@ -4367,10 +4528,37 @@ class App extends Component {
       });
     });
   }
+
+  changeNote = (instrumentGroup, instrument, column, index, newValue) => {
+    let newInstrument = Object.assign(
+      {},
+      this.state.data[instrumentGroup][instrument]
+    );
+    newInstrument[column][index] = newValue;
+
+    console.log("newValue", newValue);
+    this.setState({
+      data: {
+        ...this.state.data,
+        [instrumentGroup]: {
+          ...this.state.data[instrumentGroup],
+          [instrument]: newInstrument
+        }
+      }
+    });
+  };
+
   render() {
-    const { instruments, notes } = this.state;
+    const { instruments, notes, data } = this.state;
     return (
-      notes && instruments && <Export instruments={instruments} notes={notes} /> //<NewNoteGrid instruments={instruments} notes={notes} />
+      notes &&
+      instruments && (
+        <div>
+          Interactive notegrid
+          <NoteGrid data={data} changeNote={this.changeNote} />
+          Render <Export data={data} />
+        </div>
+      )
     );
   }
 }
