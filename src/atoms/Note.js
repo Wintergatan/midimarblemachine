@@ -1,6 +1,15 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import styled from "styled-components";
 
+const Rect = styled.rect`
+  stroke-width: 3;
+  stroke: black;
+  &:hover {
+    stroke: red;
+    cursor: pointer;
+  }
+`;
 export class Note extends Component {
   state = {
     trueValue: null
@@ -46,7 +55,7 @@ export class Note extends Component {
     }
 
     return (
-      <rect
+      <Rect
         x={x}
         y={y}
         width="20"

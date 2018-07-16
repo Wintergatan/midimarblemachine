@@ -41,7 +41,10 @@ function getColumns(instrument) {
   const column3 = instrument[2]
     .map((value, index) => {
       if (value !== false) {
-        return new Note(column3x, (index + 1) * column3spacing);
+        return new Note(
+          column3x,
+          (index + 1) * column3spacing + Math.floor(index / 2) * column3spacing
+        );
       }
       return false;
     })
@@ -68,7 +71,10 @@ function getColumns(instrument) {
   const column6 = instrument[5]
     .map((value, index) => {
       if (value) {
-        return new Note(column6x, (index + 1) * column3spacing);
+        return new Note(
+          column6x,
+          (index + 1) * column3spacing + Math.floor(index / 2) * column3spacing
+        );
       }
       return false;
     })

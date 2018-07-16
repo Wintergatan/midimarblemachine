@@ -76,7 +76,9 @@ function getColumns(instrument, lane, callback, group, name) {
         column={3}
         index={index}
         x={column3x}
-        y={(index + 1) * column3spacing}
+        y={
+          (index + 1) * column3spacing + Math.floor(index / 2) * column3spacing
+        }
         value={value}
         callback={callback}
       />
@@ -127,7 +129,10 @@ function getColumns(instrument, lane, callback, group, name) {
           column={6}
           index={index}
           x={column6x}
-          y={(index + 1) * column3spacing}
+          y={
+            (index + 1) * column3spacing +
+            Math.floor(index / 2) * column3spacing
+          }
           value={value}
           callback={callback}
         />
@@ -136,13 +141,16 @@ function getColumns(instrument, lane, callback, group, name) {
     .filter(v => v !== false);
 
   // const surroundingRectangle = new MakerJs.models.Rectangle(54, height);
-  const surroundingRectangle = (
-    <SurroundingRectangle
-      key={group + name + "surroundingRectangle"}
-      width={190}
-      height={height}
-    />
-  );
+  const surroundingRectangles = [0, 1, 2].map(i => {
+    return (
+      <SurroundingRectangle
+        key={group + name + "surroundingRectangle" + i}
+        width={190}
+        height={height}
+        y={height * i}
+      />
+    );
+  });
 
   const title = (
     <InstrumentText key={group + name + "title"} x={0} y={15}>
@@ -158,7 +166,7 @@ function getColumns(instrument, lane, callback, group, name) {
         ...column4,
         ...column5,
         ...column6,
-        surroundingRectangle,
+        ...surroundingRectangles,
         title
       ]}
     </g>
@@ -174,7 +182,7 @@ class NoteGrid extends Component {
   render() {
     const { data, changeNote } = this.props;
     const width = 5000;
-    const height = 520;
+    const height = 1040;
 
     // const kick = getColumns(data.drums.kick, 0, changeNote, "drums", "kick");
     // const snare = getColumns(data.drums.snare, 1, changeNote, "drums", "snare");

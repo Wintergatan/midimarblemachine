@@ -4357,36 +4357,36 @@ class App extends Component {
     data: {
       drums: {
         kick: [
-          [true, false, true, true],
+          [true, false, true, true, true, false, true, true],
+          [true, true, true, true, true, true, true, true],
           [true, true, true, true],
-          [true, true],
-          [false, true, false, true],
-          [true, true, true, true],
-          [true, true]
+          [false, true, false, true, false, true, false, true],
+          [true, true, true, true, false, true, false, true],
+          [true, true, false, true]
         ],
         snare: [
-          [true, false, true, true],
-          [true, true, true, false],
-          [true, true],
-          [true, false, true, true],
-          [true, true, true, false],
-          [true, true]
+          [true, false, true, true, true, false, true, true],
+          [true, true, true, true, true, true, true, true],
+          [true, true, true, true],
+          [false, true, false, true, false, true, false, true],
+          [true, true, true, true, false, true, false, true],
+          [true, true, false, true]
         ],
         hihat: [
-          [true, false, true, true],
-          [true, true, true, false],
-          [true, true],
-          [true, false, true, true],
-          [true, true, true, false],
-          [true, true]
+          [true, false, true, true, true, false, true, true],
+          [true, true, true, true, true, true, true, true],
+          [true, true, true, true],
+          [false, true, false, true, false, true, false, true],
+          [true, true, true, true, false, true, false, true],
+          [true, true, false, true]
         ],
         cymbal: [
+          [true, false, true, true, true, false, true, true],
+          [true, true, true, true, true, true, true, true],
           [true, true, true, true],
-          [true, true, true, false],
-          [true, true],
-          [true, true, true, true],
-          [true, true, true, false],
-          [true, true]
+          [false, true, false, true, false, true, false, true],
+          [true, true, true, true, false, true, false, true],
+          [true, true, false, true]
         ]
       },
       bass: {
