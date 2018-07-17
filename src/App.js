@@ -4350,168 +4350,46 @@ const instruments = {
   }
 };
 
+function initInstrument() {
+  return [
+    Array(64 * 4).fill(false),
+    Array(64 * 4).fill(false),
+    Array(64 * 2).fill(false),
+    Array(64 * 4).fill(false),
+    Array(64 * 4).fill(false),
+    Array(64 * 2).fill(false)
+  ];
+}
+
 class App extends Component {
   state = {
     notes: null,
     instruments: null,
     data: {
       drums: {
-        kick: [
-          [true, false, true, true, true, false, true, true],
-          [true, true, true, true, true, true, true, true],
-          [true, true, true, true],
-          [false, true, false, true, false, true, false, true],
-          [true, true, true, true, false, true, false, true],
-          [true, true, false, true]
-        ],
-        snare: [
-          [true, false, true, true, true, false, true, true],
-          [true, true, true, true, true, true, true, true],
-          [true, true, true, true],
-          [false, true, false, true, false, true, false, true],
-          [true, true, true, true, false, true, false, true],
-          [true, true, false, true]
-        ],
-        hihat: [
-          [true, false, true, true, true, false, true, true],
-          [true, true, true, true, true, true, true, true],
-          [true, true, true, true],
-          [false, true, false, true, false, true, false, true],
-          [true, true, true, true, false, true, false, true],
-          [true, true, false, true]
-        ],
-        cymbal: [
-          [true, false, true, true, true, false, true, true],
-          [true, true, true, true, true, true, true, true],
-          [true, true, true, true],
-          [false, true, false, true, false, true, false, true],
-          [true, true, true, true, false, true, false, true],
-          [true, true, false, true]
-        ]
+        kick: initInstrument(),
+        snare: initInstrument(),
+        hihat: initInstrument(),
+        cymbal: initInstrument()
       },
       bass: {
-        E: [
-          [12, false, false, 12],
-          [12, false, false, 12],
-          [12, false],
-          [12, false, false, 12],
-          [12, false, false, 12],
-          [12, false]
-        ],
-        A: [
-          [38, false, false, 38],
-          [38, false, false, 38],
-          [38, false],
-          [38, false, false, 38],
-          [38, false, false, 38],
-          [38, false]
-        ],
-        D: [
-          [74, false, false, 74],
-          [74, false, false, 74],
-          [74, false],
-          [74, false, false, 74],
-          [74, false, false, 74],
-          [74, false]
-        ],
-        G: [
-          [100, false, false, 100],
-          [100, false, false, 100],
-          [100, false],
-          [100, false, false, 100],
-          [100, false, false, 100],
-          [100, false]
-        ]
+        E: initInstrument(),
+        A: initInstrument(),
+        D: initInstrument(),
+        G: initInstrument()
       },
       vibraphone: {
-        bar1: [
-          [1, false, false, 0],
-          [0, false, false, 0],
-          [0, false],
-          [0, false, false, 0],
-          [0, false, false, 0],
-          [0, false]
-        ],
-        bar2: [
-          [0, false, false, 0],
-          [0, false, false, 0],
-          [0, false],
-          [0, false, false, 0],
-          [0, false, false, 0],
-          [0, false]
-        ],
-        bar3: [
-          [0, false, false, 0],
-          [0, false, false, 0],
-          [0, false],
-          [0, false, false, 0],
-          [0, false, false, 0],
-          [0, false]
-        ],
-        bar4: [
-          [0, false, false, 0],
-          [0, false, false, 0],
-          [0, false],
-          [0, false, false, 0],
-          [0, false, false, 0],
-          [0, false]
-        ],
-        bar5: [
-          [0, false, false, 0],
-          [0, false, false, 0],
-          [0, false],
-          [0, false, false, 0],
-          [0, false, false, 0],
-          [0, false]
-        ],
-        bar6: [
-          [0, false, false, 0],
-          [0, false, false, 0],
-          [0, false],
-          [0, false, false, 0],
-          [0, false, false, 0],
-          [0, false]
-        ],
-        bar7: [
-          [0, false, false, 0],
-          [0, false, false, 0],
-          [0, false],
-          [0, false, false, 0],
-          [0, false, false, 0],
-          [0, false]
-        ],
-        bar8: [
-          [0, false, false, 0],
-          [0, false, false, 0],
-          [0, false],
-          [0, false, false, 0],
-          [0, false, false, 0],
-          [0, false]
-        ],
-        bar9: [
-          [0, false, false, 0],
-          [0, false, false, 0],
-          [0, false],
-          [0, false, false, 0],
-          [0, false, false, 0],
-          [0, false]
-        ],
-        bar10: [
-          [0, false, false, 0],
-          [0, false, false, 0],
-          [0, false],
-          [0, false, false, 0],
-          [0, false, false, 0],
-          [0, false]
-        ],
-        bar11: [
-          [0, false, false, 0],
-          [0, false, false, 0],
-          [0, false],
-          [0, false, false, 0],
-          [0, false, false, 0],
-          [0, false]
-        ]
+        bar1: initInstrument(),
+        bar2: initInstrument(),
+        bar3: initInstrument(),
+        bar4: initInstrument(),
+        bar5: initInstrument(),
+        bar6: initInstrument(),
+        bar7: initInstrument(),
+        bar8: initInstrument(),
+        bar9: initInstrument(),
+        bar10: initInstrument(),
+        bar11: initInstrument()
       }
     }
   };
@@ -4556,7 +4434,7 @@ class App extends Component {
         <div>
           Interactive notegrid
           <NoteGrid data={data} changeNote={this.changeNote} />
-          Render <Export data={data} />
+          {/* Render <Export data={data} /> */}
         </div>
       )
     );
