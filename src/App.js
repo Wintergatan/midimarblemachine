@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import * as midiconvert from "midiconvert";
-import { NewNoteGrid } from "./components/NewNoteGrid";
 import Export from "./components/Export";
 import NoteGrid from "./components/NoteGrid";
+import MidiUpload from "./components/Midiupload";
+import Typography from "@material-ui/core/Typography";
 
 // const midi = {
 //   header: {
@@ -4426,14 +4427,22 @@ class App extends Component {
     });
   };
 
+  setData = midi => {
+    console.log("setData", midi);
+  };
+
   render() {
     const { instruments, notes, data } = this.state;
     return (
       notes &&
       instruments && (
         <div>
+          {/* <Typography variant="display4" gutterBottom>
+            MMX Programmer
+          </Typography> */}
+          <MidiUpload setData={this.setData} />
           Interactive notegrid
-          <NoteGrid data={data} changeNote={this.changeNote} />
+          {/* <NoteGrid data={data} changeNote={this.changeNote} /> */}
           {/* Render <Export data={data} /> */}
         </div>
       )

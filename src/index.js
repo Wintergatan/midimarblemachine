@@ -1,10 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "bootstrap/dist/css/bootstrap.css";
-import "bootstrap/dist/css/bootstrap-theme.css";
-import "./index.css";
+import CssBaseline from "@material-ui/core/CssBaseline";
+
+// import "./index.css";
 import App from "./App";
 import registerServiceWorker from "./registerServiceWorker";
 
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(
+  <React.Fragment>
+    <CssBaseline />
+    <App />
+  </React.Fragment>,
+  document.getElementById("root")
+);
 registerServiceWorker();

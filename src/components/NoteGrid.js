@@ -17,8 +17,8 @@ class NoteGrid extends Component {
 
   render() {
     const { data, changeNote } = this.props;
-    const width = 5000;
-    const height = 32040;
+    const width = 2300;
+    const height = 16020;
 
     // const kick = getColumns(data.drums.kick, 0, changeNote, "drums", "kick");
     // const snare = getColumns(data.drums.snare, 1, changeNote, "drums", "snare");
@@ -41,7 +41,7 @@ class NoteGrid extends Component {
 
     const RowNumbers = new Array(64).fill(false).map((_, i) => {
       return (
-        <RowNumber key={"RowNumber" + i} x={5} y={i * 500 + 40}>
+        <RowNumber key={"RowNumber" + i} x={30} y={i * 250 + 40}>
           {i + 1}
         </RowNumber>
       );

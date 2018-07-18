@@ -14,9 +14,9 @@ const InstrumentText = styled.text`
 `;
 
 function getColumns(instrument, lane, callback, group, name) {
-  const width = 240;
-  const height = 500;
-  const horizontalSpacing = 30;
+  const width = 120;
+  const height = 250;
+  const horizontalSpacing = 15;
 
   const column1x = 0;
   const column2x = horizontalSpacing;
@@ -139,7 +139,7 @@ function getColumns(instrument, lane, callback, group, name) {
     return (
       <SurroundingRectangle
         key={group + name + "surroundingRectangle" + i}
-        width={190}
+        width={width}
         height={height}
         y={height * i}
       />
@@ -168,7 +168,7 @@ function getColumns(instrument, lane, callback, group, name) {
 
 export default class Instrument extends Component {
   static propTypes = {
-    instrument: PropTypes.object.isRequired,
+    instrument: PropTypes.array.isRequired,
     instrumentGroupName: PropTypes.string.isRequired,
     instrumentName: PropTypes.string.isRequired,
     index: PropTypes.number.isRequired,

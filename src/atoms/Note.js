@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 
 const Rect = styled.rect`
-  stroke-width: 3;
+  stroke-width: 1;
   stroke: black;
   &:hover {
     stroke: red;
@@ -58,8 +58,8 @@ export class Note extends Component {
       <Rect
         x={x}
         y={y}
-        width="20"
-        height="60"
+        width="10"
+        height="30"
         stroke="black"
         strokeWidth="5"
         fill={value !== false ? "black" : "#ccc"}
