@@ -122,7 +122,11 @@ class MidiUpload extends Component {
             break;
         }
       }
-      this.props.setData(data);
+      try {
+        this.props.setData(data);
+      } catch (e) {
+        console.error(e);
+      }
       this.setState({ showTrackDialog: false });
     }
   };

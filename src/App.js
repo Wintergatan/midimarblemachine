@@ -10,6 +10,15 @@ import Typography from "@material-ui/core/Typography";
 // 100-127 manual Channel 2
 const instruments = {
   drums: {
+    kick: [12],
+    snare: [24],
+    hihat: [36],
+    cymbal: [48],
+    combined: [12, 24, 36, 48]
+  }
+};
+const instrumentsOld = {
+  drums: {
     kick: ["C0"],
     snare: ["C1"],
     hihat: ["C2"],
@@ -132,38 +141,87 @@ function initInstrument() {
   ];
 }
 
-class App extends Component {
-  state = {
-    notes: null,
-    instruments: null,
-    data: {
-      drums: {
-        kick: initInstrument(),
-        snare: initInstrument(),
-        hihat: initInstrument(),
-        cymbal: initInstrument()
-      },
-      bass: {
-        E: initInstrument(),
-        A: initInstrument(),
-        D: initInstrument(),
-        G: initInstrument()
-      },
-      vibraphone: {
-        bar1: initInstrument(),
-        bar2: initInstrument(),
-        bar3: initInstrument(),
-        bar4: initInstrument(),
-        bar5: initInstrument(),
-        bar6: initInstrument(),
-        bar7: initInstrument(),
-        bar8: initInstrument(),
-        bar9: initInstrument(),
-        bar10: initInstrument(),
-        bar11: initInstrument()
-      }
+function nearInt(op) {
+  const target = 0;
+  const range = 0.05;
+  return op < target + range && op > target - range;
+}
+
+function getTimingPosition(time) {
+  if (nearInt(time, 0) || nearInt(time % 0.5)) {
+    return { column: 1, index: Math.floor(time / 0.5) };
+  } else if (nearInt(time % 0.25)) {
+    return { column: 0, index: (Math.floor(time / 0.25) - 1) / 2 };
+  } else if (nearInt((time % 1) % 0.33)) {
+    return {
+      column: 2,
+      index: Math.floor(time / 0.66) - 1 - Math.floor(time / 2)
+    };
+  } else {
+    // throw new Error("Invalid note timing");
+    // console.error("invalid note timing",time)
+    return false;
+  }
+}
+/*
+0
+,66  = 0
+1,33 = 1
+
+2
+2,66 = 2
+3,33 = 3
+
+4
+4,66 = 4
+5,33 = 5
+
+6
+6,66 = 6
+7,33 = 7
+
+8
+8,66 = 8
+9,33 = 9
+
+10
+10,66 = 10
+11,33 = 11
+
+*/
+const initialState = {
+  data: {
+    drums: {
+      kick: initInstrument(),
+      snare: initInstrument(),
+      hihat: initInstrument(),
+      cymbal: initInstrument()
+    },
+    bass: {
+      E: initInstrument(),
+      A: initInstrument(),
+      D: initInstrument(),
+      G: initInstrument()
+    },
+    vibraphone: {
+      bar1: initInstrument(),
+      bar2: initInstrument(),
+      bar3: initInstrument(),
+      bar4: initInstrument(),
+      bar5: initInstrument(),
+      bar6: initInstrument(),
+      bar7: initInstrument(),
+      bar8: initInstrument(),
+      bar9: initInstrument(),
+      bar10: initInstrument(),
+      bar11: initInstrument()
     }
-  };
+  }
+};
+
+class App extends Component {
+  state = initialState;
+
   componentDidMount() {
     const data = {
       scale: "C#",
@@ -172,46 +230,580 @@ class App extends Component {
         channelNumber: 0,
         notes: [
           {
-            midi: 68,
+            midi: 36,
             time: 0,
             duration: 0.5,
             velocity: 0.007874015748031496
           },
           {
-            midi: 68,
+            midi: 24,
+            time: 0,
+            duration: 0.5,
+            velocity: 0.007874015748031496
+          },
+          {
+            midi: 12,
+            time: 0,
+            duration: 0.5,
+            velocity: 0.007874015748031496
+          },
+          {
+            midi: 48,
+            time: 0,
+            duration: 0.5,
+            velocity: 0.007874015748031496
+          },
+          {
+            midi: 36,
             time: 0.5,
             duration: 0.5,
             velocity: 0.007874015748031496
           },
           {
-            midi: 68,
+            midi: 24,
+            time: 0.5,
+            duration: 0.5,
+            velocity: 0.007874015748031496
+          },
+          {
+            midi: 12,
+            time: 0.5,
+            duration: 0.5,
+            velocity: 0.007874015748031496
+          },
+          {
+            midi: 48,
+            time: 0.5,
+            duration: 0.5,
+            velocity: 0.007874015748031496
+          },
+          {
+            midi: 36,
             time: 1,
             duration: 0.5,
             velocity: 0.3858267716535433
           },
           {
-            midi: 68,
+            midi: 24,
+            time: 1,
+            duration: 0.5,
+            velocity: 0.3858267716535433
+          },
+          {
+            midi: 12,
+            time: 1,
+            duration: 0.5,
+            velocity: 0.3858267716535433
+          },
+          {
+            midi: 48,
+            time: 1,
+            duration: 0.5,
+            velocity: 0.3858267716535433
+          },
+          {
+            midi: 36,
             time: 1.5,
             duration: 0.5,
             velocity: 0.3937007874015748
           },
           {
-            midi: 68,
+            midi: 24,
+            time: 1.5,
+            duration: 0.5,
+            velocity: 0.3937007874015748
+          },
+          {
+            midi: 12,
+            time: 1.5,
+            duration: 0.5,
+            velocity: 0.3937007874015748
+          },
+          {
+            midi: 48,
+            time: 1.5,
+            duration: 0.5,
+            velocity: 0.3937007874015748
+          },
+          {
+            midi: 36,
             time: 2,
-            duration: 0.5,
-            velocity: 0.7795275590551181
+            duration: 0.25,
+            velocity: 0.6299212598425197
           },
           {
-            midi: 68,
+            midi: 12,
+            time: 2,
+            duration: 0.25,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 24,
+            time: 2,
+            duration: 0.25,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 48,
+            time: 2,
+            duration: 0.25,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 36,
+            time: 2.25,
+            duration: 0.25,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 12,
+            time: 2.25,
+            duration: 0.25,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 24,
+            time: 2.25,
+            duration: 0.25,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 48,
+            time: 2.25,
+            duration: 0.25,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 36,
             time: 2.5,
-            duration: 0.5,
-            velocity: 0.7874015748031497
+            duration: 0.25,
+            velocity: 0.6299212598425197
           },
           {
-            midi: 68,
+            midi: 12,
+            time: 2.5,
+            duration: 0.25,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 24,
+            time: 2.5,
+            duration: 0.25,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 48,
+            time: 2.5,
+            duration: 0.25,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 36,
+            time: 2.75,
+            duration: 0.25,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 12,
+            time: 2.75,
+            duration: 0.25,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 24,
+            time: 2.75,
+            duration: 0.25,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 48,
+            time: 2.75,
+            duration: 0.25,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 36,
             time: 3,
-            duration: 0.5,
-            velocity: 1
+            duration: 0.25,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 12,
+            time: 3,
+            duration: 0.25,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 24,
+            time: 3,
+            duration: 0.25,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 48,
+            time: 3,
+            duration: 0.25,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 36,
+            time: 3.25,
+            duration: 0.25,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 12,
+            time: 3.25,
+            duration: 0.25,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 24,
+            time: 3.25,
+            duration: 0.25,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 48,
+            time: 3.25,
+            duration: 0.25,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 36,
+            time: 3.5,
+            duration: 0.25,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 12,
+            time: 3.5,
+            duration: 0.25,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 24,
+            time: 3.5,
+            duration: 0.25,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 48,
+            time: 3.5,
+            duration: 0.25,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 36,
+            time: 3.75,
+            duration: 0.25,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 12,
+            time: 3.75,
+            duration: 0.25,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 24,
+            time: 3.75,
+            duration: 0.25,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 48,
+            time: 3.75,
+            duration: 0.25,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 12,
+            time: 4,
+            duration: 0.666666666666667,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 24,
+            time: 4,
+            duration: 0.666666666666667,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 36,
+            time: 4,
+            duration: 0.666666666666667,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 48,
+            time: 4,
+            duration: 0.666666666666667,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 24,
+            time: 4.666666666666667,
+            duration: 0.666666666666667,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 48,
+            time: 4.666666666666667,
+            duration: 0.666666666666667,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 36,
+            time: 4.666666666666667,
+            duration: 0.666666666666667,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 12,
+            time: 4.666666666666667,
+            duration: 0.666666666666667,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 48,
+            time: 5.333333333333334,
+            duration: 0.666666666666667,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 36,
+            time: 5.333333333333334,
+            duration: 0.666666666666667,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 12,
+            time: 5.333333333333334,
+            duration: 0.666666666666667,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 24,
+            time: 5.333333333333334,
+            duration: 0.666666666666667,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 12,
+            time: 6.000000000000001,
+            duration: 0.666666666666667,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 24,
+            time: 6.000000000000001,
+            duration: 0.666666666666667,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 36,
+            time: 6.000000000000001,
+            duration: 0.666666666666667,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 48,
+            time: 6.000000000000001,
+            duration: 0.666666666666667,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 24,
+            time: 6.666666666666668,
+            duration: 0.666666666666667,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 48,
+            time: 6.666666666666668,
+            duration: 0.666666666666667,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 36,
+            time: 6.666666666666668,
+            duration: 0.666666666666667,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 12,
+            time: 6.666666666666668,
+            duration: 0.666666666666667,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 48,
+            time: 7.333333333333335,
+            duration: 0.666666666666667,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 36,
+            time: 7.333333333333335,
+            duration: 0.666666666666667,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 12,
+            time: 7.333333333333335,
+            duration: 0.666666666666667,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 24,
+            time: 7.333333333333335,
+            duration: 0.666666666666667,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 12,
+            time: 8.000000000000002,
+            duration: 0.6666666666666661,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 24,
+            time: 8.000000000000002,
+            duration: 0.6666666666666661,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 36,
+            time: 8.000000000000002,
+            duration: 0.6666666666666661,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 48,
+            time: 8.000000000000002,
+            duration: 0.6666666666666661,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 24,
+            time: 8.666666666666668,
+            duration: 0.6666666666666661,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 48,
+            time: 8.666666666666668,
+            duration: 0.6666666666666661,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 36,
+            time: 8.666666666666668,
+            duration: 0.6666666666666661,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 12,
+            time: 8.666666666666668,
+            duration: 0.6666666666666661,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 48,
+            time: 9.333333333333334,
+            duration: 0.6666666666666661,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 36,
+            time: 9.333333333333334,
+            duration: 0.6666666666666661,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 12,
+            time: 9.333333333333334,
+            duration: 0.6666666666666661,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 24,
+            time: 9.333333333333334,
+            duration: 0.6666666666666661,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 12,
+            time: 10,
+            duration: 0.6666666666666661,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 24,
+            time: 10,
+            duration: 0.6666666666666661,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 36,
+            time: 10,
+            duration: 0.6666666666666661,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 48,
+            time: 10,
+            duration: 0.6666666666666661,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 24,
+            time: 10.666666666666666,
+            duration: 0.6666666666666661,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 48,
+            time: 10.666666666666666,
+            duration: 0.6666666666666661,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 36,
+            time: 10.666666666666666,
+            duration: 0.6666666666666661,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 12,
+            time: 10.666666666666666,
+            duration: 0.6666666666666661,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 48,
+            time: 11.333333333333332,
+            duration: 0.6666666666666661,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 36,
+            time: 11.333333333333332,
+            duration: 0.6666666666666661,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 12,
+            time: 11.333333333333332,
+            duration: 0.6666666666666661,
+            velocity: 0.6299212598425197
+          },
+          {
+            midi: 24,
+            time: 11.333333333333332,
+            duration: 0.6666666666666661,
+            velocity: 0.6299212598425197
           }
         ],
         controlChanges: {
@@ -380,13 +972,9 @@ class App extends Component {
   }
 
   changeNote = (instrumentGroup, instrument, column, index, newValue) => {
-    let newInstrument = Object.assign(
-      {},
-      this.state.data[instrumentGroup][instrument]
-    );
+    let newInstrument = this.state.data[instrumentGroup][instrument].slice();
     newInstrument[column][index] = newValue;
 
-    console.log("newValue", newValue);
     this.setState({
       data: {
         ...this.state.data,
@@ -399,11 +987,45 @@ class App extends Component {
   };
 
   setData = data => {
-    console.log("setData", data);
+    const manual1Treshold = 0.3858267716535433;
+    const alternatingTreshold = 0.7795275590551181;
+
+    const drumsNotes = data.drums.notes.filter(note =>
+      instruments.drums.combined.includes(note.midi)
+    );
+
+    let result = Object.assign({}, initialState.data);
+
+    drumsNotes.forEach(note => {
+      let key = "";
+      if (instruments.drums.kick.includes(note.midi)) {
+        key = "kick";
+      } else if (instruments.drums.snare.includes(note.midi)) {
+        key = "snare";
+      } else if (instruments.drums.hihat.includes(note.midi)) {
+        key = "hihat";
+      } else if (instruments.drums.cymbal.includes(note.midi)) {
+        key = "cymbal";
+      } else {
+        console.log(note.midi);
+        console.error("this shouldn't happen...");
+      }
+
+      const timingPosition = getTimingPosition(note.time);
+
+      if (timingPosition === false) {
+        console.log("timingPosition === false", note);
+      } else {
+        const { column, index } = timingPosition;
+        result.drums[key][column][index] = true;
+      }
+    });
+    console.log("setData");
+    this.setState({ data: result });
   };
 
   render() {
-    const { instruments, notes, data } = this.state;
+    const { data } = this.state;
     return (
       <div>
         {/* <Typography variant="display4" gutterBottom>

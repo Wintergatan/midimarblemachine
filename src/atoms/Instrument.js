@@ -1,6 +1,7 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import _ from "lodash";
 import { Note } from "../atoms/Note";
 
 const SurroundingRectangle = styled.rect`
@@ -27,6 +28,8 @@ function getColumns(instrument, lane, callback, group, name) {
   const verticalSpacing = height / 4;
   const offset = verticalSpacing / 2;
   const column3spacing = height / 3;
+
+  // console.log("instrument",instrument)
 
   const column1 = instrument[0].map((value, index) => {
     return (
@@ -166,7 +169,7 @@ function getColumns(instrument, lane, callback, group, name) {
   );
 }
 
-export default class Instrument extends Component {
+export default class Instrument extends PureComponent {
   static propTypes = {
     instrument: PropTypes.array.isRequired,
     instrumentGroupName: PropTypes.string.isRequired,
@@ -175,9 +178,24 @@ export default class Instrument extends Component {
     changeNote: PropTypes.func.isRequired
   };
 
-  shouldComponentUpdate = (nextProps, nextState) => {
-    return this.props.instrument !== nextProps.instrument;
-  };
+  // shouldComponentUpdate = (nextProps, nextState) => {
+  // console.log("this.props",this.props.instrument)
+  // console.log("nextProps",nextProps.instrument)
+
+  // this.props.instrument.forEach((column,ci) => {
+  //   column.forEach((note,ni) => {
+  //     console.log("note",note)
+  //     if (note !== nextProps.instrument[ci][ni]) {
+  //       console.log("instrument update true")
+  //       return true;
+  //     }
+  //   })
+  // });
+  // console.log("instrument update false")
+  // return false;
+  // return this.props.instrument !== nextProps.instrument;
+  // return _.isEqual(this.props.instrument, nextProps.instrument)
+  // };
 
   render() {
     const {
@@ -187,12 +205,24 @@ export default class Instrument extends Component {
       index,
       changeNote
     } = this.props;
-    return getColumns(
-      instrument,
-      index,
-      changeNote,
-      instrumentGroupName,
-      instrumentName
+    return (
+      <React.Fragment>
+        <rect
+          width={20}
+          height={20}
+          x={index * 100}
+          onClick={() => this.forceUpdate()}
+        >
+          force Update
+        </rect>
+        {getColumns(
+          instrument,
+          index,
+          changeNote,
+          instrumentGroupName,
+          instrumentName
+        )}
+      </React.Fragment>
     );
   }
 }
