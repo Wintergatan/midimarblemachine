@@ -83,24 +83,48 @@ class MidiUpload extends Component {
     this.setState({ showErrorDialog: false });
   };
 
-  handleTrackClose = () => {
-    // const mapping = {
-    //   drums: 0,
-    //   bass: 1,
-    //   vibraphone: 2
-    // };
+  handleTrackClose = isCancel => {
+    console.log("iscancel", isCancel);
+    if (isCancel) {
+      this.setState({ showTrackDialog: false });
+      return;
+    }
+    const {
+      drumsChannelNumber,
+      bassChannelNumber,
+      vibraphoneChannelNumber,
+      scale
+    } = this.state;
 
-    // console.log("midi", this.midi);
-
-    // const instruments = Object.keys(mapping).map(instrument => {
-    //   const index = mapping[instrument];
-    //   return { [instrument]: this.midi.tracks[index] };
-    // });
-
-    // console.log(instruments);
-
-    // this.props.setData(mapping);
-    this.setState({ showTrackDialog: false });
+    if (
+      new Set([drumsChannelNumber, bassChannelNumber, vibraphoneChannelNumber])
+        .size !== 3
+    ) {
+      this.setState({
+        showErrorDialog: true,
+        error: "You have assigned the same track to multiple instruments."
+      });
+    } else {
+      let data = { scale };
+      for (let i = 0; i < this.midi.tracks.length; i++) {
+        const track = this.midi.tracks[i];
+        switch (track.channelNumber) {
+          case drumsChannelNumber:
+            data.drums = track;
+            break;
+          case bassChannelNumber:
+            data.bass = track;
+            break;
+          case vibraphoneChannelNumber:
+            data.vibraphone = track;
+            break;
+          default:
+            break;
+        }
+      }
+      this.props.setData(data);
+      this.setState({ showTrackDialog: false });
+    }
   };
 
   handleTrackChange = event => {
@@ -119,7 +143,7 @@ class MidiUpload extends Component {
 
     const scales = ["C#"];
 
-    console.log("state", this.state);
+    // console.log("state", this.state);
 
     const trackSelect = tracks
       ? tracks.map(track => {
@@ -216,7 +240,14 @@ class MidiUpload extends Component {
             </form>
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.handleTrackClose} color="primary" autoFocus>
+            <Button onClick={() => this.handleTrackClose(true)} color="primary">
+              Cancel
+            </Button>
+            <Button
+              onClick={() => this.handleTrackClose(false)}
+              color="primary"
+              autoFocus
+            >
               Ok
             </Button>
           </DialogActions>

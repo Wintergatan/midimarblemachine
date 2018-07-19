@@ -80,7 +80,7 @@ function getColumns(instrument) {
     })
     .filter(v => v !== false);
 
-  const surroundingRectangle = new MakerJs.models.Rectangle(54, height);
+  // const surroundingRectangle = new MakerJs.models.Rectangle(54, height);
 
   return [
     ...column1,
@@ -88,8 +88,8 @@ function getColumns(instrument) {
     ...column3,
     ...column4,
     ...column5,
-    ...column6,
-    surroundingRectangle
+    ...column6
+    // surroundingRectangle
   ];
 }
 
@@ -101,6 +101,16 @@ export default class Export extends Component {
   render() {
     const { data } = this.props;
     const width = 64;
+
+    const parts = new Array(8).fill(false).map((_, i) => {
+      const height = 800;
+      let part = new MakerJs.models.Rectangle(2300, height);
+      part.origin = [0, i * height];
+      // console.log("part", part);
+      return part;
+    });
+
+    // console.log("parts", parts);
 
     const model = {
       models: {
@@ -191,6 +201,9 @@ export default class Export extends Component {
               origin: [18 * width, 0]
             }
           }
+        },
+        parts: {
+          models: parts
         }
       }
     };
@@ -201,6 +214,7 @@ export default class Export extends Component {
       svgAttrs: { xmlns: "http://www.w3.org/2000/svg" },
       stroke: "red"
     };
+    // console.log("model enal", model);
     const previewSvg = MakerJs.exporter.toSVG(model, exportOptions);
     return <div dangerouslySetInnerHTML={{ __html: previewSvg }} />;
   }

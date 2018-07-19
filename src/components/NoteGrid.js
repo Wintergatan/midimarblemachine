@@ -15,6 +15,10 @@ class NoteGrid extends Component {
     changeNote: PropTypes.func.isRequired
   };
 
+  shouldComponentUpdate = (nextProps, nextState) => {
+    return this.props.data !== nextProps.data;
+  };
+
   render() {
     const { data, changeNote } = this.props;
     const width = 2300;
