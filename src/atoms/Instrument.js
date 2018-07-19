@@ -205,24 +205,12 @@ export default class Instrument extends PureComponent {
       index,
       changeNote
     } = this.props;
-    return (
-      <React.Fragment>
-        <rect
-          width={20}
-          height={20}
-          x={index * 100}
-          onClick={() => this.forceUpdate()}
-        >
-          force Update
-        </rect>
-        {getColumns(
-          instrument,
-          index,
-          changeNote,
-          instrumentGroupName,
-          instrumentName
-        )}
-      </React.Fragment>
+    return getColumns(
+      instrument,
+      index,
+      changeNote,
+      instrumentGroupName,
+      instrumentName
     );
   }
 }

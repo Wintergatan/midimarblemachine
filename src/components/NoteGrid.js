@@ -10,9 +10,23 @@ const RowNumber = styled.text`
 `;
 
 class NoteGrid extends Component {
+  constructor(props) {
+    super(props);
+
+    this.instrumentRefs = new Array(19).fill().map((_, i) => {
+      return React.createRef();
+    });
+  }
+
   static propTypes = {
     data: PropTypes.object.isRequired,
     changeNote: PropTypes.func.isRequired
+  };
+
+  update = () => {
+    this.instrumentRefs.forEach(ref => {
+      ref.current.forceUpdate();
+    });
   };
 
   // shouldComponentUpdate = (nextProps, nextState) => {
@@ -33,6 +47,7 @@ class NoteGrid extends Component {
         return (
           <Instrument
             key={instrumentGroup + instrument + i}
+            ref={this.instrumentRefs[i]}
             instrument={data[instrumentGroup][instrument]}
             index={i}
             changeNote={changeNote}

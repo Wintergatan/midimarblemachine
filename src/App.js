@@ -15,8 +15,206 @@ const instruments = {
     hihat: [36],
     cymbal: [48],
     combined: [12, 24, 36, 48]
+  },
+  bass: {
+    E: [
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25
+    ],
+    A: [
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56
+    ],
+    D: [
+      62,
+      63,
+      64,
+      65,
+      66,
+      67,
+      68,
+      69,
+      70,
+      71,
+      72,
+      73,
+      74,
+      75,
+      76,
+      77,
+      78,
+      79,
+      80,
+      81,
+      82,
+      83
+    ],
+    G: [
+      91,
+      92,
+      93,
+      94,
+      95,
+      96,
+      97,
+      98,
+      99,
+      100,
+      101,
+      102,
+      103,
+      104,
+      105,
+      106,
+      107,
+      108,
+      109,
+      110,
+      111,
+      112
+    ],
+    combined: [
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      62,
+      63,
+      64,
+      65,
+      66,
+      67,
+      68,
+      69,
+      70,
+      71,
+      72,
+      73,
+      74,
+      75,
+      76,
+      77,
+      78,
+      79,
+      80,
+      81,
+      82,
+      83,
+      91,
+      92,
+      93,
+      94,
+      95,
+      96,
+      97,
+      98,
+      99,
+      100,
+      101,
+      102,
+      103,
+      104,
+      105,
+      106,
+      107,
+      108,
+      109,
+      110,
+      111,
+      112
+    ]
+  },
+  // To be changed later, E-minor is here as an example
+  vibraphone: {
+    bars: [35, 36, 38, 40, 42, 43, 45, 47, 48, 50, 52],
+    combined: [35, 36, 38, 40, 42, 43, 45, 47, 48, 50, 52]
   }
 };
+
 const instrumentsOld = {
   drums: {
     kick: ["C0"],
@@ -221,6 +419,11 @@ const initialState = {
 
 class App extends Component {
   state = initialState;
+
+  constructor(props) {
+    super(props);
+    this.noteGridRef = React.createRef();
+  }
 
   componentDidMount() {
     const data = {
@@ -987,54 +1190,95 @@ class App extends Component {
   };
 
   setData = data => {
+    let result = Object.assign({}, initialState.data);
+
+    /*
+    [15:56, 3/16/2018] Martin Molin: 1-49 Manual Channel 1
+    [15:56, 3/16/2018] Martin Molin: 50-99 Alternating
+    [15:56, 3/16/2018] Martin Molin: 100-127 manual Channel 2
+    */
     const manual1Treshold = 0.3858267716535433;
     const alternatingTreshold = 0.7795275590551181;
 
-    const drumsNotes = data.drums.notes.filter(note =>
-      instruments.drums.combined.includes(note.midi)
-    );
+    let previousChannel = 1;
+    Object.keys(instruments).forEach(instrumentGroup => {
+      data[instrumentGroup].notes
+        .filter(note =>
+          instruments[instrumentGroup].combined.includes(note.midi)
+        )
+        .forEach((note, noteIndex) => {
+          let key = undefined;
 
-    let result = Object.assign({}, initialState.data);
+          Object.keys(instruments[instrumentGroup])
+            .filter(instrument => instrument !== "combined")
+            .forEach(instrument => {
+              if (
+                instruments[instrumentGroup][instrument].includes(note.midi)
+              ) {
+                key = instrument;
+              }
+            });
 
-    drumsNotes.forEach(note => {
-      let key = "";
-      if (instruments.drums.kick.includes(note.midi)) {
-        key = "kick";
-      } else if (instruments.drums.snare.includes(note.midi)) {
-        key = "snare";
-      } else if (instruments.drums.hihat.includes(note.midi)) {
-        key = "hihat";
-      } else if (instruments.drums.cymbal.includes(note.midi)) {
-        key = "cymbal";
-      } else {
-        console.log(note.midi);
-        console.error("this shouldn't happen...");
-      }
+          if (key === undefined) {
+            console.log(note.midi);
+            console.error("this shouldn't happen...");
+          }
 
-      const timingPosition = getTimingPosition(note.time);
+          const timingPosition = getTimingPosition(note.time);
 
-      if (timingPosition === false) {
-        console.log("timingPosition === false", note);
-      } else {
-        const { column, index } = timingPosition;
-        result.drums[key][column][index] = true;
-      }
+          if (timingPosition === false) {
+            console.log("timingPosition === false", note);
+          } else {
+            const { column, index } = timingPosition;
+
+            let channel;
+            if (note.velocity > 0 && note.velocity < manual1Treshold) {
+              // manual 1
+              channel = 0;
+            } else if (note.velocity < alternatingTreshold) {
+              // manual 2
+              channel = 3;
+            } else {
+              // alternating
+
+              if (noteIndex === 0 || previousChannel === 3) {
+                channel = 0;
+              } else {
+                channel = 3;
+              }
+            }
+            previousChannel = channel;
+            // TODO alternate notes
+            const newColumn = column + channel; //((column + 1) * channel) - 1;
+            result[instrumentGroup][key][newColumn][index] = true;
+          }
+        });
     });
-    console.log("setData");
+
     this.setState({ data: result });
+    this.update();
+  };
+
+  update = () => {
+    this.noteGridRef.current.update();
   };
 
   render() {
     const { data } = this.state;
     return (
       <div>
-        {/* <Typography variant="display4" gutterBottom>
-            MMX Programmer
-          </Typography> */}
+        <Typography variant="display4" gutterBottom>
+          MMX Programmer
+        </Typography>
         <MidiUpload setData={this.setData} />
+        <Export data={data} />
         Interactive notegrid
-        <NoteGrid data={data} changeNote={this.changeNote} />
-        {/* Render <Export data={data} /> */}
+        <button onClick={() => this.update()}>force update</button>
+        <NoteGrid
+          ref={this.noteGridRef}
+          data={data}
+          changeNote={this.changeNote}
+        />
       </div>
     );
   }

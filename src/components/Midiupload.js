@@ -171,7 +171,7 @@ class MidiUpload extends Component {
     });
 
     return (
-      <div>
+      <span>
         <label htmlFor="upload">Upload Midi</label>
         <input
           id="upload"
@@ -273,7 +273,7 @@ class MidiUpload extends Component {
             </Button>
           </DialogActions>
         </Dialog>
-      </div>
+      </span>
     );
   }
 }
