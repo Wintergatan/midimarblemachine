@@ -1,34 +1,71 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import styled from "styled-components";
 
+const Rect = styled.rect`
+  stroke-width: 1;
+  stroke: black;
+  &:hover {
+    stroke: red;
+    cursor: pointer;
+  }
+`;
 export class Note extends Component {
   state = {
-    on: false
+    trueValue: null
   };
 
   static propTypes = {
     x: PropTypes.number.isRequired,
-    y: PropTypes.number.isRequired
+    y: PropTypes.number.isRequired,
+    value: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]),
+    callback: PropTypes.func.isRequired,
+    instrument: PropTypes.string.isRequired,
+    instrumentGroup: PropTypes.string.isRequired,
+    column: PropTypes.number.isRequired,
+    index: PropTypes.number.isRequired
   };
 
-  switch = () => {
-    this.setState({ on: !this.state.on });
-    //this.props.callback(this.props.id);
-  };
+  constructor(props) {
+    super(props);
+    if (props.value !== false) {
+      this.state.trueValue = props.value;
+    } else {
+      this.state.trueValue = true;
+    }
+  }
 
   render() {
-    const { on } = this.state;
-    const { x, y } = this.props;
+    const {
+      x,
+      y,
+      instrumentGroup,
+      instrument,
+      column,
+      index,
+      value,
+      callback
+    } = this.props;
+    const { trueValue } = this.state;
+
+    let newValue = false;
+
+    if (value !== true && value === false) {
+      newValue = trueValue;
+    }
+
     return (
-      <rect
+      <Rect
         x={x}
         y={y}
-        width="20"
-        height="60"
+        width="10"
+        height="30"
         stroke="black"
         strokeWidth="5"
-        fill={on ? "black" : "#ccc"}
-        onClick={this.switch}
+        fill={value !== false ? "black" : "#ccc"}
+        onClick={() => {
+          callback(instrumentGroup, instrument, column - 1, index, newValue);
+        }}
       />
     );
   }
