@@ -274,7 +274,6 @@ class Export extends Component {
           <CircularProgress className={classes.progress} />
         ) : (
           <React.Fragment>
-            <button onClick={this.export}>Export render</button>
             <FormControl className={classes.formControl}>
               <InputLabel htmlFor="export-type">Export type</InputLabel>
               <Select
@@ -286,6 +285,14 @@ class Export extends Component {
                 <MenuItem value="svg">SVG</MenuItem>
               </Select>
             </FormControl>
+            <Button
+              variant="raised"
+              color="primary"
+              className={classes.exportButton}
+              onClick={this.export}
+            >
+              Export render
+            </Button>
           </React.Fragment>
         )}
       </span>

@@ -46,13 +46,6 @@ export class Note extends Component {
       value,
       callback
     } = this.props;
-    const { trueValue } = this.state;
-
-    let newValue = false;
-
-    if (value !== true && value === false) {
-      newValue = trueValue;
-    }
 
     return (
       <Rect
@@ -64,7 +57,7 @@ export class Note extends Component {
         strokeWidth="5"
         fill={value !== false ? "black" : "#ccc"}
         onClick={() => {
-          callback(instrumentGroup, instrument, column - 1, index, newValue);
+          callback(instrumentGroup, instrument, column - 1, index, !value);
         }}
       />
     );
