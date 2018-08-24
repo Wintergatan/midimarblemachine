@@ -1,8 +1,22 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import Export from "./components/Export";
 import NoteGrid from "./components/NoteGrid";
 import MidiUpload from "./components/Midiupload";
+import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
+import Paper from "@material-ui/core/Paper";
+
+const styles = theme => ({
+  controls: {
+    width: 540,
+    ...theme.mixins.gutters(),
+    paddingTop: theme.spacing.unit * 2,
+    paddingBottom: theme.spacing.unit * 2,
+    margin: 30,
+    marginTop: 0
+  }
+});
 
 // To change manual/alternating
 // 1-49 Manual Channel 1
@@ -323,6 +337,10 @@ class App extends Component {
     this.noteGridRef = React.createRef();
   }
 
+  static propTypes = {
+    classes: PropTypes.object.isRequired
+  };
+
   changeNote = (instrumentGroup, instrument, column, index, newValue) => {
     let newInstrument = this.state.data[instrumentGroup][instrument].slice();
     newInstrument[column][index] = newValue;
@@ -415,17 +433,20 @@ class App extends Component {
 
   render() {
     const { data } = this.state;
+    const { classes } = this.props;
     return (
       <div>
         <Typography variant="display4" gutterBottom>
           MMX Programmer
         </Typography>
-        <MidiUpload
-          setData={this.setData}
-          instruments={instruments}
-          scales={scales}
-        />
-        <Export data={data} />
+        <Paper className={classes.controls}>
+          <MidiUpload
+            setData={this.setData}
+            instruments={instruments}
+            scales={scales}
+          />
+          <Export data={data} />
+        </Paper>
         <NoteGrid
           ref={this.noteGridRef}
           data={data}
@@ -436,4 +457,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withStyles(styles)(App);

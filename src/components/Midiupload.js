@@ -27,6 +27,9 @@ const styles = theme => ({
   formControl: {
     margin: theme.spacing.unit,
     minWidth: 120
+  },
+  button: {
+    margin: theme.spacing.unit
   }
 });
 
@@ -212,7 +215,13 @@ class MidiUpload extends Component {
         {loading ? (
           <CircularProgress className={classes.progress} />
         ) : (
-          <Button component={"label"} htmlFor="upload">
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.button}
+            component={"label"}
+            htmlFor="upload"
+          >
             Upload Midi
           </Button>
         )}

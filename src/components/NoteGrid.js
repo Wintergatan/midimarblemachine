@@ -11,13 +11,13 @@ const SvgContainer = styled.svg`
 
 const Container = styled.div`
   position: relative;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
 `;
 
 const RowNumber = styled.div`
   width: 30px;
   height: 250px;
   padding-top: 120px;
-  padding-right: 5px;
   border: 1px solid black;
   border-left: none;
 `;
@@ -28,7 +28,7 @@ const RowNumbersContainer = styled.div`
   width: 30px;
   background-color: #fafafa;
   z-index: 2;
-  text-align: right;
+  text-align: center;
 `;
 
 const ColumnNamesContainer = styled.div`
@@ -38,6 +38,7 @@ const ColumnNamesContainer = styled.div`
   z-index: 1;
   text-align: center;
   margin-left: 30px;
+  font-size: 14px;
 `;
 
 const ColumnName = styled.div`
