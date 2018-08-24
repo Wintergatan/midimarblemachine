@@ -1,17 +1,12 @@
 import React, { PureComponent } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import _ from "lodash";
 import { Note } from "../atoms/Note";
 
 const SurroundingRectangle = styled.rect`
   stroke-width: 3;
   stroke: rgb(0, 0, 0);
   fill: none;
-`;
-
-const InstrumentText = styled.text`
-  fill: black;
 `;
 
 function getColumns(instrument, lane, callback, group, name) {
@@ -148,13 +143,8 @@ function getColumns(instrument, lane, callback, group, name) {
       />
     );
   });
-  const title = (
-    <InstrumentText key={group + name + "title"} x={0} y={-5}>
-      {group + " " + name}
-    </InstrumentText>
-  );
   return (
-    <g key={group + name} transform={`translate(${lane * width},20.5)`}>
+    <g key={group + name} transform={`translate(${lane * width},0)`}>
       {[
         ...column1,
         ...column2,
@@ -162,8 +152,7 @@ function getColumns(instrument, lane, callback, group, name) {
         ...column4,
         ...column5,
         ...column6,
-        ...surroundingRectangles,
-        title
+        ...surroundingRectangles
       ]}
     </g>
   );

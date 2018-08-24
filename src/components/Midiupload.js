@@ -16,12 +16,43 @@ import MenuItem from "@material-ui/core/MenuItem";
 import { load as loadMidi } from "midiconvert";
 
 const styles = theme => ({
-  root: {},
+  fileUpload: {
+    width: 0.1,
+    height: 0.1,
+    opacity: 0,
+    overflow: "hidden",
+    position: "absolute",
+    zIndex: -1
+  },
   formControl: {
     margin: theme.spacing.unit,
     minWidth: 120
+  },
+  button: {
+    margin: theme.spacing.unit
   }
 });
+
+// Source: https://github.com/Tonejs/MidiConvert/blob/fcd0cb9619bdf54f20bf2ee4d125a229d9b6deac/src/Util.js
+function midiToPitch(midi) {
+  const scaleIndexToNote = [
+    "C",
+    "C#",
+    "D",
+    "D#",
+    "E",
+    "F",
+    "F#",
+    "G",
+    "G#",
+    "A",
+    "A#",
+    "B"
+  ];
+  const octave = Math.floor(midi / 12) - 1;
+  const note = midi % 12;
+  return scaleIndexToNote[note] + octave;
+}
 
 class MidiUpload extends Component {
   state = {
@@ -30,11 +61,13 @@ class MidiUpload extends Component {
     drumsChannelNumber: -1,
     bassChannelNumber: -1,
     vibraphoneChannelNumber: -1,
-    scale: "C#"
+    scale: "CSharp"
   };
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    setData: PropTypes.func.isRequired
+    setData: PropTypes.func.isRequired,
+    instruments: PropTypes.object.isRequired,
+    scales: PropTypes.object.isRequired
   };
 
   onChange = e => {
@@ -136,16 +169,20 @@ class MidiUpload extends Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, scales } = this.props;
     const {
       showTrackDialog,
       tracks,
       loading,
       showErrorDialog,
-      error
+      error,
+      drumsChannelNumber,
+      bassChannelNumber,
+      vibraphoneChannelNumber,
+      scale
     } = this.state;
 
-    const scales = ["C#"];
+    // const scales = ["C#"];
 
     // console.log("state", this.state);
 
@@ -162,24 +199,39 @@ class MidiUpload extends Component {
         })
       : null;
 
-    const scalesSelect = scales.map(scale => {
+    const scalesSelect = Object.keys(scales).map(key => {
+      const value = scales[key];
       return (
-        <MenuItem key={"scale" + scale} value={scale}>
-          {scale}
+        <MenuItem key={"scale" + key} value={key}>
+          {value.name}
         </MenuItem>
       );
     });
 
+    const scalesText = scales[scale].notes.map(midiToPitch).join(", ");
+
     return (
       <span>
-        <label htmlFor="upload">Upload Midi</label>
+        {loading ? (
+          <CircularProgress className={classes.progress} />
+        ) : (
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.button}
+            component={"label"}
+            htmlFor="upload"
+          >
+            Upload Midi
+          </Button>
+        )}
         <input
           id="upload"
+          className={classes.fileUpload}
           type="file"
           accept=".mid,.midi"
           onChange={this.onChange}
         />
-        {loading ? <CircularProgress className={classes.progress} /> : null}
         <Dialog
           open={showTrackDialog}
           onClose={this.handleErrorClose}
@@ -194,29 +246,27 @@ class MidiUpload extends Component {
               <FormControl className={classes.formControl}>
                 <InputLabel htmlFor="drums-helper">Drums</InputLabel>
                 <Select
-                  value={this.state.drumsChannelNumber}
+                  value={drumsChannelNumber}
                   onChange={this.handleTrackChange}
                   input={<Input name="drumsChannelNumber" id="drums-helper" />}
                 >
                   {trackSelect}
                 </Select>
               </FormControl>
-
               <FormControl className={classes.formControl}>
                 <InputLabel htmlFor="bass-helper">Bass</InputLabel>
                 <Select
-                  value={this.state.bassChannelNumber}
+                  value={bassChannelNumber}
                   onChange={this.handleTrackChange}
                   input={<Input name="bassChannelNumber" id="bass-helper" />}
                 >
                   {trackSelect}
                 </Select>
               </FormControl>
-
               <FormControl className={classes.formControl}>
                 <InputLabel htmlFor="vibraphone-helper">Vibraphone</InputLabel>
                 <Select
-                  value={this.state.vibraphoneChannelNumber}
+                  value={vibraphoneChannelNumber}
                   onChange={this.handleTrackChange}
                   input={
                     <Input
@@ -228,19 +278,19 @@ class MidiUpload extends Component {
                   {trackSelect}
                 </Select>
               </FormControl>
-
               <FormControl className={classes.formControl}>
                 <InputLabel htmlFor="vscale-helper">
                   Vibraphone scale
                 </InputLabel>
                 <Select
-                  value={this.state.scale}
+                  value={scale}
                   onChange={this.handleTrackChange}
                   input={<Input name="scale" id="scale-helper" />}
                 >
                   {scalesSelect}
                 </Select>
               </FormControl>
+              Notes in this scale: {scalesText}
             </form>
           </DialogContent>
           <DialogActions>

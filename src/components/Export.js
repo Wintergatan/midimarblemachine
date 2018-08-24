@@ -5,22 +5,20 @@ import FileSaver from "file-saver";
 import { withStyles } from "@material-ui/core/styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 
-const styles = {
+const styles = theme => ({
   formControl: {
     width: 200
+  },
+  exportButton: {
+    margin: theme.spacing.unit
   }
-};
+});
 
 function Note(x, y) {
   return MakerJs.model.move(new MakerJs.models.Rectangle(4, 8), [x, y]);
@@ -274,7 +272,6 @@ class Export extends Component {
           <CircularProgress className={classes.progress} />
         ) : (
           <React.Fragment>
-            <button onClick={this.export}>Export render</button>
             <FormControl className={classes.formControl}>
               <InputLabel htmlFor="export-type">Export type</InputLabel>
               <Select
@@ -286,6 +283,14 @@ class Export extends Component {
                 <MenuItem value="svg">SVG</MenuItem>
               </Select>
             </FormControl>
+            <Button
+              variant="raised"
+              color="primary"
+              className={classes.exportButton}
+              onClick={this.export}
+            >
+              Export render
+            </Button>
           </React.Fragment>
         )}
       </span>
